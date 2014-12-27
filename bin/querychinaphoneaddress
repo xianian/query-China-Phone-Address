@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 var fs = require('fs');
 var main = require('../index.js');
 var argv = process.argv.slice(2);
