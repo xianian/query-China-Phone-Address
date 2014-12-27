@@ -6,7 +6,8 @@ var iconv = require('iconv-lite');
 
 var phoneNumberList = [];
 var addressList = [];
-var lengthOfPhoneNumberList;
+var lengthOfPhoneNumberList = 0;
+var lengthOfPerOtherInfoCsvLine = 0;
 
 
 
@@ -33,6 +34,12 @@ var getAddress = function(info) {
         //data = JSON.parse(data);
         data = eval("("+data+")");
         console.log(info.phoneNumber+", "+(addressList.length*100/lengthOfPhoneNumberList)+"%");
+        if (info.otherInfo.length > lengthOfPerOtherInfoCsvLine) {
+          lengthOfPerOtherInfoCsvLine = info.otherInfo.length;
+        }
+        while (info.otherInfo.length < lengthOfPerOtherInfoCsvLine) {
+          info.otherInfo.push("");
+        }
         addressList.push(info.otherInfo.concat([
           info.phoneNumber,
           data.province,
