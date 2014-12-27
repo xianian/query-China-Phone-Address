@@ -8,18 +8,7 @@ var phoneNumberList = [];
 var addressList = [];
 var lengthOfPhoneNumberList;
 
-var createPhoneNumberList = function(path) {
-  var buffer = fs.readFileSync(path);
-  var numbers = buffer.toString().split('\n');
-  for (var i in numbers) {
-    numbers[i] = {
-      phoneNumber: numbers[i].split(',')[1],
-      name: numbers[i].split(',')[0],
-    };
-  }
-  lengthOfPhoneNumberList = numbers.length;
-  return numbers;
-};
+
 
 var getAddress = function(info) {
   if (!info.phoneNumber) {
@@ -44,9 +33,15 @@ var getAddress = function(info) {
         //data = JSON.parse(data);
         data = eval("("+data+")");
         console.log(info.phoneNumber+", "+(addressList.length*100/lengthOfPhoneNumberList)+"%");
-        addressList.push(info.name+", "+info.phoneNumber+", "+data.province+", "+data.cityname+", "+data.isp);
+        addressList.push(info.otherInfo.concat([
+          info.phoneNumber,
+          data.province,
+          data.cityname,
+          data.isp
+        ]).join(', '));
         if (lengthOfPhoneNumberList === addressList.length) {
           //print addressList.
+          console.log("Done");
           fs.writeFile('./answer.csv', addressList.join(os.EOL));
         }
       } catch(e) {
@@ -56,9 +51,10 @@ var getAddress = function(info) {
   });
 
 };
-
-phoneNumberList = createPhoneNumberList('./query.csv');
-for (var i in phoneNumberList) {
-  getAddress(phoneNumberList[i]);
-}
-
+module.exports = function(list) {
+  phoneNumberList = list;
+  lengthOfPhoneNumberList = phoneNumberList.length;
+  for (var i in phoneNumberList) {
+    getAddress(phoneNumberList[i]);
+  }
+};

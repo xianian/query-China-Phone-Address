@@ -1,0 +1,54 @@
+var fs = require('fs');
+var main = require('../index.js');
+var argv = process.argv.slice(2);
+
+if (argv.length <= 0) {
+  console.log("Usage: ");
+  console.log("querychinaphoneaddress 18688888888 13303030303");
+  console.log("or: ");
+  console.log("querychinaphoneaddress ./query.csv");
+  console.log("csv file should look like: ");
+  console.log("| Name | PhoneNumber |");
+  console.log("|------|-------------|");
+  console.log("| 张三 | 18888888888 |");
+  console.log("| 李四 | 13303030303 |");
+  return;
+}
+
+var iList = [];
+argv.forEach(function(s) {
+  if (s.indexOf("1") === 0) {
+    //is phone number.
+    iList.push({
+      phoneNumber: s,
+      otherInfo: [],
+    });
+  } else {
+    //is csv file.
+    iList = iList.concat(createPhoneNumberList(s));
+  }
+});
+main(iList);
+
+function createPhoneNumberList(path) {
+  var buffer = fs.readFileSync(path);
+  var infoList = [];
+  buffer.toString().split('\n').forEach(function(currentInfo) {
+    var currentInfoList = currentInfo.split(',');
+    for (var i in currentInfoList) {
+      if (typeof currentInfoList[i] === "string") {
+        if (currentInfoList[i].length === 11 && currentInfoList[i].indexOf('1') === 0) {
+          //currentinfolist[i]是手机号
+          var p = currentInfoList.splice(i)[0];
+          infoList.push({
+            phoneNumber: p,
+            otherInfo: currentInfoList,
+          });
+          return;
+        }
+      }
+    }
+  });
+  lengthOfPhoneNumberList = infoList.length;
+  return infoList;
+}
