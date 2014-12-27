@@ -49,8 +49,9 @@ var getAddress = function(info) {
         if (lengthOfPhoneNumberList === addressList.length) {
           //print addressList.
           console.log("Done");
-          fs.writeFile('./answer.csv', addressList.join(os.EOL));
-          console.log("Saved to "+currentPath+"/answer.csv");
+          var fileName = 'Answer_'+Number(new Date())+'.csv';
+          fs.writeFile('./'+fileName, addressList.join(os.EOL));
+          console.log("Saved to "+currentPath+"/"+fileName);
         }
       } catch(e) {
         console.error(e);

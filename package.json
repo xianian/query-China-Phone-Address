@@ -1,6 +1,6 @@
 {
   "name": "query_china_phone_address",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "query china phone address in shell",
   "main": "index.js",
   "dependencies": {
