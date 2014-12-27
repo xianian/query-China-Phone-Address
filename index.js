@@ -8,7 +8,7 @@ var phoneNumberList = [];
 var addressList = [];
 var lengthOfPhoneNumberList = 0;
 var lengthOfPerOtherInfoCsvLine = 0;
-
+var currentPath;
 
 
 var getAddress = function(info) {
@@ -50,6 +50,7 @@ var getAddress = function(info) {
           //print addressList.
           console.log("Done");
           fs.writeFile('./answer.csv', addressList.join(os.EOL));
+          console.log("Saved to "+currentPath+"/answer.csv");
         }
       } catch(e) {
         console.error(e);
@@ -58,7 +59,8 @@ var getAddress = function(info) {
   });
 
 };
-module.exports = function(list) {
+module.exports = function(list, c) {
+  currentPath = c;
   phoneNumberList = list;
   lengthOfPhoneNumberList = phoneNumberList.length;
   for (var i in phoneNumberList) {

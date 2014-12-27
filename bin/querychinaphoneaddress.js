@@ -28,7 +28,7 @@ argv.forEach(function(s) {
     iList = iList.concat(createPhoneNumberList(s));
   }
 });
-main(iList);
+main(iList, process.cwd());
 
 function createPhoneNumberList(path) {
   var buffer = fs.readFileSync(path);
