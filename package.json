@@ -7,10 +7,13 @@
     "iconv-lite": "^0.4.5",
     "bl": "^0.9.3"
   },
+  "bin": {
+    "querychinaphoneaddress": "./bin/querychinaphoneaddress"
+  },
   "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "heruoxin",
   "license": "MIT"
 }
